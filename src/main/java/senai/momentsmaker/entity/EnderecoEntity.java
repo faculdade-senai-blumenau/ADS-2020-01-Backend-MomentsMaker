@@ -31,7 +31,7 @@ public class EnderecoEntity {
     @Column(name = "complemento")
     private String complemento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "municipio_id", referencedColumnName = "id")
     private MunicipioEntity municipio;
     

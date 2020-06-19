@@ -45,11 +45,11 @@ public class ClienteEntity {
     @Column(name = "media_avaliacao")
     private double mediaAvaliacao;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "login_id", referencedColumnName = "id")
     private LoginEntity login;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private EnderecoEntity endereco;
 

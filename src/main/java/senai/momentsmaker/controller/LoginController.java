@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +44,9 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> createLogin(@RequestBody LoginEntity login) {
-		LoginEntity savedLogin = loginRepository.save(login);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedLogin.getId()).toUri();
-		return ResponseEntity.created(location).build();
+	public ResponseEntity<LoginEntity> save(@RequestBody LoginEntity loginEntity) {
+		LoginEntity savedLogin = loginRepository.save(loginEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedLogin);
 	}
 
 	@PutMapping("/login/{id}")

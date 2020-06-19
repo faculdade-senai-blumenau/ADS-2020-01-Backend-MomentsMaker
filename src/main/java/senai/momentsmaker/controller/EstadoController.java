@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +44,9 @@ public class EstadoController {
 	}
 
 	@PostMapping("/estado")
-	public ResponseEntity<Object> createEstado(@RequestBody EstadoEntity estado) {
-		EstadoEntity savedEstado = estadoRepository.save(estado);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedEstado.getId()).toUri();
-		return ResponseEntity.created(location).build();
+	public ResponseEntity<EstadoEntity> save(@RequestBody EstadoEntity estadoEntity) {
+		EstadoEntity savedEstado = estadoRepository.save(estadoEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedEstado);
 	}
 
 	@PutMapping("/estado/{id}")

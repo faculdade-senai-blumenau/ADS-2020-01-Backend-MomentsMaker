@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +44,9 @@ public class PaisController {
 	}
 
 	@PostMapping("/pais")
-	public ResponseEntity<Object> createPais(@RequestBody PaisEntity pais) {
-		PaisEntity savedPais = paisRepository.save(pais);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedPais.getId()).toUri();
-		return ResponseEntity.created(location).build();
+	public ResponseEntity<PaisEntity> save(@RequestBody PaisEntity paisEntity) {
+		PaisEntity savedPais = paisRepository.save(paisEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedPais);
 	}
 
 	@PutMapping("/pais/{id}")

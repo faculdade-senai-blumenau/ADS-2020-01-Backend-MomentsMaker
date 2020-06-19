@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +44,9 @@ public class ClienteController {
 	}
 
 	@PostMapping("/cliente")
-	public ResponseEntity<Object> createCliente(@RequestBody ClienteEntity cliente) {
-		ClienteEntity savedCliente = clienteRepository.save(cliente);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedCliente.getId()).toUri();
-		return ResponseEntity.created(location).build();
+	public ResponseEntity<ClienteEntity> save(@RequestBody ClienteEntity clienteEntity) {
+		ClienteEntity savedCliente = clienteRepository.save(clienteEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente);
 	}
 
 	@PutMapping("/cliente/{id}")

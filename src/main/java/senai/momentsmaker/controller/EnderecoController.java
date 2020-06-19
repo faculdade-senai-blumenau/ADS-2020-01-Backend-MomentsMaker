@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +44,9 @@ public class EnderecoController {
 	}
 
 	@PostMapping("/endereco")
-	public ResponseEntity<Object> createEndereco(@RequestBody EnderecoEntity endereco) {
-		EnderecoEntity savedEndereco = enderecoRepository.save(endereco);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedEndereco.getId()).toUri();
-		return ResponseEntity.created(location).build();
+	public ResponseEntity<EnderecoEntity> save(@RequestBody EnderecoEntity enderecoEntity) {
+		EnderecoEntity savedEndereco = enderecoRepository.save(enderecoEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedEndereco);
 	}
 
 	@PutMapping("/endereco/{id}")

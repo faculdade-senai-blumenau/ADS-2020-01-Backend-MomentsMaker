@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,12 +43,10 @@ public class MunicipioController {
 		municipioRepository.deleteById(id);
 	}
 
-	@PostMapping("/municipio")
-	public ResponseEntity<Object> createMunicipio(@RequestBody MunicipioEntity municipio) {
-		MunicipioEntity savedMunicipio = municipioRepository.save(municipio);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedMunicipio.getId()).toUri();
-		return ResponseEntity.created(location).build();
+	@PostMapping
+	public ResponseEntity<MunicipioEntity> save(@RequestBody MunicipioEntity municipioEntity) {
+		MunicipioEntity savedMunicipio = municipioRepository.save(municipioEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedMunicipio);
 	}
 
 	@PutMapping("/municipio/{id}")
