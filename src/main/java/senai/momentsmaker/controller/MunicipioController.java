@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 import senai.momentsmaker.entity.MunicipioEntity;
@@ -38,7 +37,7 @@ public class MunicipioController {
 		municipioRepository.deleteById(id);
 	}
 
-	@PostMapping
+	@PostMapping("/municipio")
 	public ResponseEntity<MunicipioEntity> save(@RequestBody MunicipioEntity municipioEntity) {
 		MunicipioEntity savedMunicipio = municipioRepository.save(municipioEntity);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedMunicipio);

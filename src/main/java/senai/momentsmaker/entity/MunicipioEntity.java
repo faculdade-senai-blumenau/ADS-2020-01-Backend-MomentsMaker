@@ -16,7 +16,7 @@ public class MunicipioEntity {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "estado_id", nullable = false)
     private EstadoEntity estado;
 
