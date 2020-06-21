@@ -3,6 +3,7 @@ package br.senai.momentsmaker.controller;
 import java.util.List;
 import java.util.Optional;
 
+import br.senai.momentsmaker.entity.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,16 +50,15 @@ public class ClienteController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente);
 	}
 
-	@PutMapping("/cliente/{id}")
-	public ResponseEntity<Object> updateCliente(@RequestBody ClienteEntity cliente, @PathVariable Long id) {
-		Optional<ClienteEntity> clienteOptional = clienteRepository.findById(id);
+	@PutMapping("/cliente")
+	public ApiResponse<ClienteEntity> update(@RequestBody ClienteEntity clienteEntity) {
+		Optional<ClienteEntity> cliente = clienteRepository.findById(clienteEntity.getId());
 
-		if (!clienteOptional.isPresent()) {
-			return ResponseEntity.notFound().build();
+		if (cliente.isPresent()) {
+			clienteRepository.save(clienteEntity);
+			return new ApiResponse<>(HttpStatus.OK.value(), "Dados do cliente atualizados com sucesso.", cliente);
 		}
 
-		cliente.setId(id);
-		clienteRepository.save(cliente);
-		return ResponseEntity.noContent().build();
+		return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "Não foi possível atualizar os dados do cliente.", cliente);
 	}
 }

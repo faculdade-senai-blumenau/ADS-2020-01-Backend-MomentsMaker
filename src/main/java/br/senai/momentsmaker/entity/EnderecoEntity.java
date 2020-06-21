@@ -13,9 +13,6 @@ public class EnderecoEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "rua", nullable = false)
-    private String rua;
-
     @Column(name = "bairro", nullable = false)
     private String bairro;
 
@@ -31,7 +28,7 @@ public class EnderecoEntity {
     @Column(name = "complemento")
     private String complemento;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "municipio_id", referencedColumnName = "id")
     private MunicipioEntity municipio;
     
