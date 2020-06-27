@@ -1,12 +1,13 @@
 package br.senai.momentsmaker.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "evento")
@@ -25,16 +26,14 @@ public class EventoEntity {
     private LocalDateTime criacaoEvento;
 
     @Column(name = "data_inicio", nullable = false)
-    private LocalDate dataInicio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd:HH:mm")
+    private LocalDateTime dataInicio;
 
     @Column(name = "data_fim", nullable = false)
-    private LocalDate dataFim;
-
-    @Column(name = "hora_inicio", nullable = false)
-    private LocalTime horaInicio;
-
-    @Column(name = "hora_fim", nullable = false)
-    private LocalTime horaFim;
+    @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd:HH:mm")
+    private LocalDateTime dataFim;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
@@ -43,5 +42,8 @@ public class EventoEntity {
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private ClienteEntity cliente;
+
+    @ManyToMany
+    private List<FornecedorEntity> fornecedores;
 
 }

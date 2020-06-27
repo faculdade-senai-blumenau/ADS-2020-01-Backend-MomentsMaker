@@ -3,19 +3,7 @@ package br.senai.momentsmaker.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import br.senai.momentsmaker.enumerator.TipoProfissional;
 import lombok.Data;
@@ -63,5 +51,8 @@ public class FornecedorEntity {
                joinColumns=  @JoinColumn( name = "fornecedor_id"), 
                inverseJoinColumns= @JoinColumn(name = "imagem_id") )
     private List<ImagemEntity> imagens = new ArrayList<ImagemEntity>();
+
+    @ManyToMany
+    private List<CategoriaEntity> categorias;
     
 }
