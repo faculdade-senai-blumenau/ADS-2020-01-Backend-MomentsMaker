@@ -20,7 +20,6 @@ public class AvaliacaoEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "comentario", nullable = false)
 	private String comentario;
 
 	@Column(name = "nota")
@@ -30,13 +29,13 @@ public class AvaliacaoEntity {
 	private Boolean origemAvaliacao;
 	
 	@ManyToOne
-	@JoinColumn(name = "fornecedor_id", nullable = false)
+	@JoinColumn(name = "fornecedor_id")
 	private FornecedorEntity fornecedor;
 
 	@ManyToOne
-	@JoinColumn(name = "cliente_id", nullable = false)
+	@JoinColumn(name = "cliente_id")
 	private ClienteEntity cliente;
 
-	@Column(name = "deCliente", unique = true)
+	@Column(name = "deCliente")
 	private Boolean deCliente;
 }
