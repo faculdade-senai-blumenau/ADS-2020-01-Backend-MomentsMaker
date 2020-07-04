@@ -16,20 +16,20 @@ public class ClienteEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 15, nullable = false)
+    @Column(length = 15)
     private String cpf;
 
-    @Column(name = "sexo", nullable = false)
+    @Column(name = "sexo")
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @Column(name = "data_nascimento", nullable = false)
+    @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "sobrenome", nullable = false)
+    @Column(name = "sobrenome")
     private String sobrenome;
 
     @Column(name = "media_avaliacao")
