@@ -1,19 +1,17 @@
 package br.senai.momentsmaker.controller;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.senai.momentsmaker.entity.CategoriaEntity;
+import br.senai.momentsmaker.repository.CategoriaRepository;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.senai.momentsmaker.entity.FornecedorEntity;
 import br.senai.momentsmaker.repository.FornecedorRepository;
@@ -24,13 +22,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FornecedorController {
 
-	@Autowired
 	private final FornecedorRepository fornecedorRepository;
+	private final CategoriaRepository categoriaRepository;
 
-	// Traz todos fornecedores
 	@GetMapping("/fornecedores")
-	public List<FornecedorEntity> gellAllFornecedores() {
+	public List<FornecedorEntity> get(@RequestParam Optional<String> nomeCategoria) {
+		if (nomeCategoria.isPresent()) {
+			Optional<CategoriaEntity> categoria = categoriaRepository.findByNome(nomeCategoria.get());
+			if (categoria.isPresent()) {
+				return fornecedorRepository.findByCategorias(categoria.get());
+			} else {
+				return Collections.emptyList();
+			}
+		}
 		return fornecedorRepository.findAll();
+	}
+
+	@GetMapping("/fornecedores/buscadisponibilidade")
+	public List<FornecedorEntity> getDisponibilidade(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm") LocalDateTime dataInicio,
+													 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm") LocalDateTime dataFim) {
+		return fornecedorRepository.findByDisponibilidade(dataInicio, dataFim);
 	}
 
 	// Traz detalhes de um fornecedor em específico
@@ -38,7 +49,7 @@ public class FornecedorController {
 	public FornecedorEntity getFornecedor(@PathVariable Long id) {
 		// Optional recurso java 8 mais informações https://medium.com/@racc.costa/optional-no-java-8-e-no-java-9-7c52c4b797f1
 		Optional<FornecedorEntity> fornecedor = fornecedorRepository.findById(id);
-		return fornecedor.get();
+		return fornecedor.orElse(null);
 	}
 	
 	// Deletar um usuário por id
@@ -46,7 +57,9 @@ public class FornecedorController {
 	public void deleteFornecedor(@PathVariable Long id) {
 		fornecedorRepository.deleteById(id);
 	}
-	
+
+
+	//Verificar o retorno das categorias persistidas(está retornando somente o id)
 	@PostMapping("/fornecedores")
 	public ResponseEntity<Object> createFornecedor(@RequestBody FornecedorEntity fornecedor) {
 		FornecedorEntity savedFornecedor = fornecedorRepository.save(fornecedor);
