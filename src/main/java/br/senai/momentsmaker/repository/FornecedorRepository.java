@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import br.senai.momentsmaker.entity.FornecedorEntity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.List;
 
 @Repository
@@ -27,5 +28,5 @@ public interface FornecedorRepository extends JpaRepository<FornecedorEntity, Lo
             "LEFT JOIN evento ON evt_fr.evento_entity_id = evento.id " +
             "AND evento.data_inicio >= :dataInicio AND evento.data_fim <= :dataFim WHERE evento.id is null",
             nativeQuery = true)
-    List<FornecedorEntity> findByDisponibilidade(LocalDateTime dataInicio, LocalDateTime dataFim);
+    List<FornecedorEntity> findByDisponibilidade(LocalDate dataInicio, LocalDate dataFim);
 }

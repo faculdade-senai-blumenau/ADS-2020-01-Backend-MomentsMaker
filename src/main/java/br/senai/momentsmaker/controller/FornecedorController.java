@@ -1,6 +1,7 @@
 package br.senai.momentsmaker.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,8 +40,8 @@ public class FornecedorController {
 	}
 
 	@GetMapping("/fornecedores/buscadisponibilidade")
-	public List<FornecedorEntity> getDisponibilidade(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm") LocalDateTime dataInicio,
-													 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm") LocalDateTime dataFim) {
+	public List<FornecedorEntity> getDisponibilidade(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicio,
+													 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFim) {
 		return fornecedorRepository.findByDisponibilidade(dataInicio, dataFim);
 	}
 
