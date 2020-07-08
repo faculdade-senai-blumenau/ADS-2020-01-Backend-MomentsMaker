@@ -46,6 +46,7 @@ public class EventoController {
 	@PostMapping("/evento")
 	public ResponseEntity<Object> createEvento(@RequestBody EventoEntity evento) {
 		EventoEntity savedEvento = eventoRepository.save(evento);
+		eventoRepository.inserirEventoFornecedor(savedEvento.getId(), evento.getIdFornecedor());
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedEvento);
 	}
 

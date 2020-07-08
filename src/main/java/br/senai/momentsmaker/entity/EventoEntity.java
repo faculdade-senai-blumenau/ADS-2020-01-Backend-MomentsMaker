@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,11 +20,8 @@ public class EventoEntity {
     @Column(name = "id")
     private Long id;
 	
-    @Column(name = "valor", nullable = false)
+    @Column(name = "valor")
     private BigDecimal valor;
-
-    @Column(name = "criacao_evento", nullable = false)
-    private LocalDateTime criacaoEvento;
 
     @Column(name = "data_inicio", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
@@ -43,7 +41,12 @@ public class EventoEntity {
     @JoinColumn(name = "cliente_id", nullable = false)
     private ClienteEntity cliente;
 
-    @ManyToMany
-    private List<FornecedorEntity> fornecedores;
+    private Long idFornecedor;
+    
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="evento_fornecedores", 
+               joinColumns=  @JoinColumn( name = "evento_id"), 
+               inverseJoinColumns= @JoinColumn(name = "fornecedor_id") )
+    private List<FornecedorEntity> fornecedores = new ArrayList<FornecedorEntity>();
 
 }
