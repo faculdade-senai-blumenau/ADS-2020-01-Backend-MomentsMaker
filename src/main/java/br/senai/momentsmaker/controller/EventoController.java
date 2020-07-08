@@ -62,4 +62,9 @@ public class EventoController {
 		eventoRepository.save(evento);
 		return ResponseEntity.noContent().build();
 	}
+
+	@GetMapping("/evento/cliente/{id}")
+	public List<EventoEntity> getEventosCliente(@PathVariable Long clienteId) {
+		return eventoRepository.buscaEventosCliente(clienteId);
+	}
 }
