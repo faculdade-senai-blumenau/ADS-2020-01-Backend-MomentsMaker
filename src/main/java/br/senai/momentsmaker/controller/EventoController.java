@@ -63,7 +63,7 @@ public class EventoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/evento/cliente/{id}")
+	@GetMapping("/evento/cliente/{clienteId}")
 	public List<EventoEntity> getEventosCliente(@PathVariable Long clienteId) {
 		return eventoRepository.buscaEventosCliente(clienteId);
 	}
