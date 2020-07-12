@@ -1,13 +1,19 @@
 package br.senai.momentsmaker.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
 import java.math.BigDecimal;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.LocalTime;
+
 import java.util.List;
 
 @Entity
@@ -24,14 +30,34 @@ public class EventoEntity {
     private BigDecimal valor;
 
     @Column(name = "data_inicio", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
-    @JsonFormat(pattern = "yyyy-MM-dd:HH:mm")
-    private LocalDateTime dataInicio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataInicio;
+
+    @Column(name = "hora_inicio")
+    @DateTimeFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime horaInicio;
 
     @Column(name = "data_fim", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataFim;
+
+    @Column(name = "hora_fim")
+    @DateTimeFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime horaFim;
+
+    @Column(name = "data_hora_inicio")
     @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
     @JsonFormat(pattern = "yyyy-MM-dd:HH:mm")
-    private LocalDateTime dataFim;
+    private LocalDateTime dataHoraInicio;
+
+    @Column(name = "data_hora_fim")
+    @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd:HH:mm")
+    private LocalDateTime dataHoraFim;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
@@ -43,10 +69,10 @@ public class EventoEntity {
 
     private Long idFornecedor;
     
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="evento_fornecedores", 
-               joinColumns=  @JoinColumn( name = "evento_id"), 
+    @ManyToMany
+    @JoinTable(name="evento_fornecedores",
+               joinColumns=  @JoinColumn( name = "evento_id"),
                inverseJoinColumns= @JoinColumn(name = "fornecedor_id") )
-    private List<FornecedorEntity> fornecedores = new ArrayList<FornecedorEntity>();
+    private List<FornecedorEntity> fornecedores;
 
 }

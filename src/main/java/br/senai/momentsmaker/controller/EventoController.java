@@ -1,5 +1,6 @@
 package br.senai.momentsmaker.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +46,16 @@ public class EventoController {
 
 	@PostMapping("/evento")
 	public ResponseEntity<Object> createEvento(@RequestBody EventoEntity evento) {
+		LocalDateTime dataHoraInicio = LocalDateTime.of(evento.getDataInicio(), evento.getHoraInicio());
+		LocalDateTime dataHoraFim = LocalDateTime.of(evento.getDataFim(), evento.getHoraFim());
+
+		evento.setDataHoraInicio(dataHoraInicio);
+		evento.setDataHoraFim(dataHoraFim);
+
 		EventoEntity savedEvento = eventoRepository.save(evento);
-		eventoRepository.inserirEventoFornecedor(savedEvento.getId(), evento.getIdFornecedor());
+
+		//eventoRepository.inserirEventoFornecedor(savedEvento.getId(), evento.getFornecedores().get(0).getId());
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedEvento);
 	}
 
